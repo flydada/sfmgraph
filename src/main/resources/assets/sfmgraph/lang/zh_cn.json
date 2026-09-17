@@ -1,0 +1,7 @@
+{
+  "sfmgraph.editor.title": "工厂图谱编辑器",
+  "sfmgraph.hint.open_manager_first": "先打开一个工厂管理器，再按 Ctrl+G 打开图谱编辑器",
+  "sfmgraph.hint.needs_disk": "这个管理器里没有磁盘，程序没地方保存",
+  "key.sfmgraph.open_graph": "打开图谱编辑器（在管理器界面里）",
+  "key.categories.sfmgraph": "SFM 图谱编辑器"
+}

@@ -1,0 +1,17 @@
+# Gradle
+.gradle/
+build/
+
+# ModDevGradle run directories
+run/
+logs/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.eclipse/
+.settings/
+.classpath
+.project
+bin/

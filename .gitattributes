@@ -1,0 +1,9 @@
+# Keep the shell script LF: with CRLF the CI's ./gradlew fails as a bad interpreter.
+* text=auto eol=lf
+gradlew text eol=lf
+*.sh text eol=lf
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.jar binary
+*.png binary
+*.zip binary

@@ -1,0 +1,7 @@
+{
+  "sfmgraph.editor.title": "Factory Graph Editor",
+  "sfmgraph.hint.open_manager_first": "Open a factory manager first, then press Ctrl+G for the graph editor",
+  "sfmgraph.hint.needs_disk": "This manager has no disk, so there is nowhere to save the program",
+  "key.sfmgraph.open_graph": "Open Graph Editor (in the manager screen)",
+  "key.categories.sfmgraph": "SFM Graph Editor"
+}

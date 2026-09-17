@@ -1,0 +1,102 @@
+plugins {
+    id 'java'
+    id 'net.neoforged.moddev' version '2.0.78'
+}
+
+version = mod_version
+group = mod_group_id
+
+base {
+    archivesName = "sfmgraph-MC${minecraft_version}"
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+    // Deliberately no withSourcesJar(): the build produces exactly one jar, so there is no second
+    // file that looks installable but contains no compiled classes. Shipping a sources jar into a
+    // mods folder gets the addon listed in the mod list while doing absolutely nothing.
+}
+
+repositories {
+    // Super Factory Manager is published on Modrinth
+    maven {
+        name = 'Modrinth'
+        url = 'https://api.modrinth.com/maven'
+        content { includeGroup 'maven.modrinth' }
+    }
+}
+
+neoForge {
+    version = project.neo_version
+
+    runs {
+        client {
+            client()
+            // Handy for iterating on the editor: jump straight into a test world.
+            gameDirectory = file('run')
+        }
+    }
+
+    mods {
+        "${mod_id}" {
+            sourceSet sourceSets.main
+        }
+    }
+}
+
+dependencies {
+    // Super Factory Manager, the mod this addon plugs into.
+    //
+    // NOTE: the coordinate has to use Modrinth's *version id*, not the version number. SFM reuses
+    // the same version number across Minecraft versions (4.34.0 exists for 1.21.1, 1.20.1 and
+    // 26.1.2), and resolving by number silently picks one of the others -- the 1.20.1 Forge build,
+    // whose config classes do not exist on NeoForge 21.1, producing a confusing
+    // "cannot access ForgeConfigSpec" at compile time.
+    // To change SFM: find the 1.21.1/NeoForge file id on
+    //   https://api.modrinth.com/v2/project/super-factory-manager/version
+    // and put that id here (see sfm_version in gradle.properties for the human readable pin).
+    //
+    // The pinned version is deliberately the oldest one supported, because compiling against it is
+    // what keeps the addon from using APIs that only exist in later releases.
+    implementation "maven.modrinth:super-factory-manager:${sfm_version_id}"
+
+    testImplementation platform('org.junit:junit-bom:5.10.2')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    // Same ANTLR version SFM generates its grammar with, and the one Minecraft bundles.
+    testImplementation 'org.antlr:antlr4-runtime:4.13.1'
+    // The tests load SFM's parser and AST builder, which drag in NeoForge, Minecraft and Minecraft's
+    // own libraries. ModDevGradle only wires those into the mod's runtime classpath, so the test
+    // source set reuses that classpath verbatim rather than listing the artefacts by hand.
+    testImplementation files(configurations.runtimeClasspath)
+}
+
+tasks.named('test', Test) {
+    useJUnitPlatform()
+    testLogging {
+        events 'passed', 'skipped', 'failed'
+        showStandardStreams = true
+        exceptionFormat = 'full'
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release = 21
+}
+
+// The wrapper task probes the distribution URL with a HEAD request before writing the wrapper, which
+// some sandboxed and firewalled networks reject even though the download itself works. Pass
+// -PskipWrapperValidation to generate the wrapper in those environments.
+tasks.named('wrapper') {
+    if (project.hasProperty('skipWrapperValidation')) {
+        validateDistributionUrl = false
+    }
+}
+
+// Keep the dev sanity: no stale jars in run/mods confusing the runtime.
+tasks.matching { it.name == 'runClient' }.configureEach {
+    doFirst { logger.lifecycle("Launching client with SFM ${sfm_version} + sfmgraph ${mod_version}") }
+}
