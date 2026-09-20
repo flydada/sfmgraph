@@ -28,6 +28,8 @@ SFM 本身很强大，但程序要手写：`EVERY 20 TICKS DO INPUT 80 FROM ore 
 
 ⚠ 要下的是 **Assets** 里的 jar，不是 GitHub 自动附上的「Source code」zip / tar.gz —— 那两个是源码快照，里面没有编译好的类，装进游戏等于什么都没装。
 
+> 仓库的 Actions 页里也有 CI 每次提交产出的 `sfmgraph-jar`，但那是**压缩包**（要先解压）、下载需要登录 GitHub、而且 90 天就过期。拿成品请用 Releases。它的用处是「这个提交能不能在干净的机器上编译并跑通测试」——现在每次推送都会验一遍。
+
 ---
 
 ## 安装
