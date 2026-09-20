@@ -22,6 +22,14 @@ SFM 本身很强大，但程序要手写：`EVERY 20 TICKS DO INPUT 80 FROM ore 
 
 ---
 
+## 下载
+
+已经编译好的 jar 在 [Releases](https://github.com/flydada/sfmgraph/releases)：`sfmgraph-MC1.21.1-1.0.0.jar`。
+
+⚠ 要下的是 **Assets** 里的 jar，不是 GitHub 自动附上的「Source code」zip / tar.gz —— 那两个是源码快照，里面没有编译好的类，装进游戏等于什么都没装。
+
+---
+
 ## 安装
 
 1. 装好 NeoForge 1.21.1 和 Super Factory Manager 4.32.0+。
