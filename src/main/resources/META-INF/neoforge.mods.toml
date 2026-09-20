@@ -1,7 +1,7 @@
 modLoader = "javafml"
 loaderVersion = "[4,)"
 license = "MIT"
-issueTrackerURL = "https://github.com/example/sfmgraph/issues"
+issueTrackerURL = "https://github.com/flydada/flypark-public/issues"
 
 [[mods]]
 modId = "sfmgraph"
